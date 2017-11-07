@@ -4,9 +4,11 @@ socket.on('connect', function(){
 		console.log("Connected to socket.io server!")
 });
 socket.on('message', function(message){
+		var momentTimestamp = moment.utc(message.timestamp);
+
 		console.log('New Message');
 		console.log(message.text);
-		jQuery('.messages').append('<p>' + message.text + '</p>');
+		jQuery('.messages').append('<p>' + momentTimestamp.format('h:mm a') + " " + message.text + '</p>');
 });
 
 //Handles submitting of new message
@@ -17,6 +19,7 @@ $form.on('submit', function(event){
 		var $message = $form.find('input[name=message]');
 		socket.emit('message', {
 			text: $message.val()
+
 		});
 		$message.val('')
 });

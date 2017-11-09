@@ -5,9 +5,16 @@ var name = getQueryVariable('name');
 
 console.log(name + ' Wants to join ' + room);
 
+jQuery('#roomname').text('You are connected to ' + room);
+
 socket.on('connect', function(){
-		console.log("Connected to socket.io server!")
+		console.log("Connected to socket.io server!");
+		socket.emit('joinRoom', {
+			name: name,
+			room: room
+		});
 });
+
 socket.on('message', function(message){
 		var momentTimestamp = moment.utc(message.timestamp);
 		var $message = jQuery('.messages');
